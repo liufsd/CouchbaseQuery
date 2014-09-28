@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <CouchbaseLite/CouchbaseLite.h>
 @interface ViewController : UIViewController
 
-
+@property(retain,nonatomic) CBLDatabase* database;
 @end
 
