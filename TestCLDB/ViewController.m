@@ -75,7 +75,7 @@
     return query;
 }
 
-- (CBLQuery*) queryContactInfoFromUserOlder:(id)older
+- (CBLQuery*) queryContactInfoStartUserOlder:(id)startOlder endOlder:(id)endOlder
 {
     //1- createView
     CBLView * contactInfoView = [self.database viewNamed: @"contactDataByUserOlder"];
@@ -88,9 +88,9 @@
     
     //2 - make the query
     CBLQuery* query = [contactInfoView createQuery];
-    NSLog(@"Querying older: %@", older);
-    query.startKey = older;
-    query.endKey   = older;
+    NSLog(@"Querying older: %@ ,%@", startOlder,endOlder);
+    query.startKey = startOlder;
+    query.endKey   = endOlder;
     return query;
 }
 
@@ -99,7 +99,7 @@
     //query userName(user_id)
 //    CBLQuery *contactQuery = [self queryContactInfoFromUsername: @"older"];
        //query userOlder(older)
-    CBLQuery *contactQuery = [self queryContactInfoFromUserOlder:[NSNumber numberWithInteger: 3]];
+    CBLQuery *contactQuery = [self queryContactInfoStartUserOlder:[NSNumber numberWithInteger: 3] endOlder:[NSNumber numberWithInteger: 10]];
     //run, enumerate
     NSError * error;
     CBLQueryEnumerator* result = [contactQuery run: &error];
