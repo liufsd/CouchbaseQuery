@@ -84,14 +84,9 @@
 		061EF12D19D7FAC400A0A153 = {
 			isa = PBXGroup;
 			children = (
-				061EF16919D7FB4C00A0A153 /* SystemConfiguration.framework */,
-				061EF16719D7FB4400A0A153 /* Security.framework */,
-				061EF16519D7FB3B00A0A153 /* CFNetwork.framework */,
-				061EF16319D7FB2A00A0A153 /* libsqlite3.dylib */,
-				061EF16119D7FB2200A0A153 /* libz.dylib */,
-				061EF15F19D7FB1000A0A153 /* CouchbaseLite.framework */,
 				061EF13819D7FAC400A0A153 /* TestCLDB */,
 				061EF15219D7FAC400A0A153 /* TestCLDBTests */,
+				061EF17019D8016D00A0A153 /* Frameworks */,
 				061EF13719D7FAC400A0A153 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -154,6 +149,19 @@
 				061EF16E19D7FBE600A0A153 /* ContactInfoModel.m */,
 			);
 			name = clmodels;
+			sourceTree = "<group>";
+		};
+		061EF17019D8016D00A0A153 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				061EF16919D7FB4C00A0A153 /* SystemConfiguration.framework */,
+				061EF16719D7FB4400A0A153 /* Security.framework */,
+				061EF16519D7FB3B00A0A153 /* CFNetwork.framework */,
+				061EF16319D7FB2A00A0A153 /* libsqlite3.dylib */,
+				061EF16119D7FB2200A0A153 /* libz.dylib */,
+				061EF15F19D7FB1000A0A153 /* CouchbaseLite.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
