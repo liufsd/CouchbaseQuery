@@ -14,7 +14,7 @@
 @property (strong) NSString* user_id;
 @property (strong) NSString* type;
 @property (strong) NSString* contactData;
-
+@property (assign) int userOlder;
 - (instancetype) initInDatabase: (CBLDatabase*)database;
 - (instancetype) initInDatabase: (CBLDatabase*)database withID: (NSString*)thisUserId;
 

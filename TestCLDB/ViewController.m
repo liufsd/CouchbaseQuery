@@ -41,14 +41,14 @@
     NSError * error;
     if(![myContactInfo save:&error]) NSLog(@"Error: %@", error.localizedDescription);
     
-    ContactInfoModel * zhContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"zhangsan"];
+    ContactInfoModel * zhContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older"];
     
     zhContactInfo.contactData = @"Tel: +4912342343";
     
     NSError * zherror;
     if(![zhContactInfo save:&zherror]) NSLog(@"Error: %@", zherror.localizedDescription);
     
-    ContactInfoModel * liuContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"liupeng"];
+    ContactInfoModel * liuContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_1"];
     
     liuContactInfo.contactData = @"Tel: +4912342344";
     
@@ -75,16 +75,37 @@
     return query;
 }
 
+- (CBLQuery*) queryContactInfoFromUserOlder:(id)older
+{
+    //1- createView
+    CBLView * contactInfoView = [self.database viewNamed: @"contactDataByUserOlder"];
+    [contactInfoView setMapBlock: MAPBLOCK({
+        if ([doc[@"type"] isEqualToString: @"contacInfo"]) {
+            if (doc[@"userOlder"])
+                emit(doc[@"userOlder"], doc[@"user_id"]);
+        }
+    }) version: @"3"];
+    
+    //2 - make the query
+    CBLQuery* query = [contactInfoView createQuery];
+    NSLog(@"Querying older: %@", older);
+    query.startKey = older;
+    query.endKey   = older;
+    return query;
+}
+
 -(void)doSomeQuery
 {
-    CBLQuery *contactQuery = [self queryContactInfoFromUsername: @"liupeng"];
-    
+    //query userName(user_id)
+//    CBLQuery *contactQuery = [self queryContactInfoFromUsername: @"older"];
+       //query userOlder(older)
+    CBLQuery *contactQuery = [self queryContactInfoFromUserOlder:[NSNumber numberWithInteger: 3]];
     //run, enumerate
     NSError * error;
     CBLQueryEnumerator* result = [contactQuery run: &error];
     for(CBLQueryRow* row in result)
     {
-        NSLog(@"Found document: %@", row.document);
+        NSLog(@"Found document: %@ ,%@", row.document, [row.document properties]);
     }
 }
 - (void)didReceiveMemoryWarning {

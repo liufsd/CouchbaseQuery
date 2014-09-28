@@ -30,7 +30,7 @@
     
     self.type = [[self class] type];
     self.user_id = thisUserId;       //used for the query explanation shown later
-    
+    self.userOlder = arc4random()%10;
     return self;
 }
 + (NSString*) type{
