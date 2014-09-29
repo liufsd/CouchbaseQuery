@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     [self checkDatabase];
     
-    [self addNewInfo];
+//    [self addNewInfo];
     
     [self doSomeQuery];
 }
@@ -34,25 +34,25 @@
     if (error) { NSLog(@"error getting database %@",error); }
 }
 -(void)addNewInfo{
-    ContactInfoModel * myContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database];
+    ContactInfoModel * myContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_Pro_0"];
     
-    myContactInfo.contactData = @"Tel: +4912342342";
+    myContactInfo.contactData = @"Tel: +4912342340";
     myContactInfo.progress = 75;
     
     NSError * error;
     if(![myContactInfo save:&error]) NSLog(@"Error: %@", error.localizedDescription);
     
-    ContactInfoModel * zhContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_Pro_2"];
+    ContactInfoModel * zhContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_Pro_1"];
     
-    zhContactInfo.contactData = @"Tel: +4912342343";
+    zhContactInfo.contactData = @"Tel: +4912342341";
     zhContactInfo.progress = 76;
     
     NSError * zherror;
     if(![zhContactInfo save:&zherror]) NSLog(@"Error: %@", zherror.localizedDescription);
     
-    ContactInfoModel * liuContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_Pro_1"];
+    ContactInfoModel * liuContactInfo = [[ContactInfoModel alloc] initInDatabase:self.database withID:@"N_older_Pro_2"];
     
-    liuContactInfo.contactData = @"Tel: +4912342344";
+    liuContactInfo.contactData = @"Tel: +4912342342";
     
     NSError * liuerror;
     if(![liuContactInfo save:&liuerror]) NSLog(@"Error: %@", liuerror.localizedDescription);
@@ -96,20 +96,39 @@
     return query;
 }
 
-- (CBLQuery*) queryContactInfoWithPro:(id)pro StartUserOlder:(id)startOlder endOlder:(id)endOlder
+- (CBLQuery*) queryContactInfoWithPro:(id)pro
 {
     //1- createView
     CBLView * contactInfoView = [self.database viewNamed: @"contactDataByProgress"];
     [contactInfoView setMapBlock: MAPBLOCK({
         if ([doc[@"type"] isEqualToString: @"contacInfo"]) {
-            if (doc[@"progress"])
-                emit(doc[@"progress"], doc[@"userOlder"]);
+            if (doc[@"progress"] )
+                emit(doc[@"progress"], doc);
         }
-    }) version: @"6"];
+    }) version: @"1"];
     
     //2 - make the query
     CBLQuery* query = [contactInfoView createQuery];
-    NSLog(@"Querying older: %@ ,%@", startOlder,endOlder);
+    NSLog(@"Querying pro: %@", pro);
+    query.startKey = pro;
+    query.endKey   = @{};
+    return query;
+}
+
+- (CBLQuery*) queryContactInfoWithPro:(id)pro StartUserOlder:(id)startOlder endOlder:(id)endOlder
+{
+    //1- createView
+    CBLView * contactInfoView = [self.database viewNamed: @"contactDataByProgressAndOlder"];
+    [contactInfoView setMapBlock: MAPBLOCK({
+        if ([doc[@"type"] isEqualToString: @"contacInfo"]) {
+           if (doc[@"progress"] && doc[@"userOlder"])
+             emit(@[doc[@"progress"], doc[@"userOlder"]], doc);
+        }
+    }) version: @"1"];
+    
+    //2 - make the query
+    CBLQuery* query = [contactInfoView createQuery];
+    NSLog(@"Querying pro:%@ older: %@ ,%@",pro, startOlder,endOlder);
     query.startKey = @[pro,startOlder];
     query.endKey   = @[@{},endOlder];
     return query;
@@ -120,9 +139,9 @@
     //query userName(user_id)
 //    CBLQuery *contactQuery = [self queryContactInfoFromUsername: @"older"];
        //query userOlder(older)
-//    CBLQuery *contactQuery = [self queryContactInfoStartUserOlder:[NSNumber numberWithInteger: 3] endOlder:[NSNumber numberWithInteger: 10]];
-    CBLQuery *contactQuery = [self queryContactInfoWithPro:[NSNumber numberWithInteger: 75] StartUserOlder:[NSNumber numberWithInteger: 1] endOlder:[NSNumber numberWithInteger: 5]];
-
+//    CBLQuery *contactQuery = [self queryContactInfoStartUserOlder:[NSNumber numberWithInteger: 5] endOlder:[NSNumber numberWithInteger: 10]];
+//    CBLQuery *contactQuery = [self queryContactInfoWithPro:[NSNumber numberWithInteger: 0] StartUserOlder:[NSNumber numberWithInteger: 5] endOlder:[NSNumber numberWithInteger: 10]];
+    CBLQuery *contactQuery = [self queryContactInfoWithPro:[NSNumber numberWithInt:76]];
     //run, enumerate
     NSError * error;
     CBLQueryEnumerator* result = [contactQuery run: &error];
