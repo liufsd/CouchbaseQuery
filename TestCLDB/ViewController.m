@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "ContactInfoModel.h"
 #import <CouchbaseLite/CouchbaseLite.h>
+#import <sqlite3.h>
 @interface ViewController ()
 
 @end
