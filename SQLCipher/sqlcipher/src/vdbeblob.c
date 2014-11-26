@@ -77,7 +77,9 @@ static int blobSeekToRow(Incrblob *p, sqlite3_int64 iRow, char **pzErr){
       p->iOffset = pC->aType[p->iCol + pC->nField];
       p->nByte = sqlite3VdbeSerialTypeLen(type);
       p->pCsr =  pC->pCursor;
-      sqlite3BtreeIncrblobCursor(p->pCsr);
+      sqlite3BtreeEnterCursor(p->pCsr);
+      sqlite3BtreeCacheOverflow(p->pCsr);
+      sqlite3BtreeLeaveCursor(p->pCsr);
     }
   }
 

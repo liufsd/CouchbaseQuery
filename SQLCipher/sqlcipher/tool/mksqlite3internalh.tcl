@@ -60,8 +60,6 @@ foreach hdr {
    keywordhash.h
    opcodes.h
    os_common.h
-   os_setup.h
-   os_win.h
    os.h
    pager.h
    parse.h

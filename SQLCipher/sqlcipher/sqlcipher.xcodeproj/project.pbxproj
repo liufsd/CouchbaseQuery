@@ -153,14 +153,15 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/sqlite3.c",
+				"$(SRCROOT)/configure",
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/libsqlcipher.a",
+				"$(SRCROOT)/sqlite3.c",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./configure --enable-tempstore=yes --with-crypto-lib=commoncrypto CFLAGS=\"-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2\"\nmake sqlite3.c\nexit 0";
+			shellPath = "/bin/sh -e";
+			shellScript = "if [ ! $SRCROOT/sqlite3.c -nt $SRCROOT/configure ] ; then\n    ./configure --enable-tempstore=yes --with-crypto-lib=commoncrypto CFLAGS=\"-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2\"\n    make sqlite3.c\nfi";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -200,6 +201,8 @@
 					"-DSQLITE_TEMP_STORE=2",
 					"-DSQLITE_THREADSAFE",
 					"-DSQLCIPHER_CRYPTO_CC",
+					"-DSQLITE_ENABLE_FTS3",
+					"-DSQLITE_ENABLE_RTREE=1",
 				);
 				"OTHER_CFLAGS[arch=armv6]" = (
 					"-mno-thumb",
@@ -229,6 +232,8 @@
 					"-DSQLITE_TEMP_STORE=2",
 					"-DSQLITE_THREADSAFE",
 					"-DSQLCIPHER_CRYPTO_CC",
+					"-DSQLITE_ENABLE_FTS3",
+					"-DSQLITE_ENABLE_RTREE=1",
 				);
 				"OTHER_CFLAGS[arch=armv6]" = (
 					"-mno-thumb",
@@ -248,7 +253,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=macosx*]" = (
 					x86_64,
 					i386,
@@ -259,7 +264,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = 7.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";

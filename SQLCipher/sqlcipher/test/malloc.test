@@ -20,7 +20,6 @@
 
 set testdir [file dirname $argv0]
 source $testdir/tester.tcl
-set ::testprefix malloc
 
 
 # Only run these tests if memory debugging is turned on.

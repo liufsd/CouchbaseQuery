@@ -447,9 +447,9 @@ void sqlite3SchemaClear(void *p){
   sqlite3HashClear(&temp1);
   sqlite3HashClear(&pSchema->fkeyHash);
   pSchema->pSeqTab = 0;
-  if( pSchema->schemaFlags & DB_SchemaLoaded ){
+  if( pSchema->flags & DB_SchemaLoaded ){
     pSchema->iGeneration++;
-    pSchema->schemaFlags &= ~DB_SchemaLoaded;
+    pSchema->flags &= ~DB_SchemaLoaded;
   }
 }
 

@@ -70,12 +70,6 @@
 */
 
 #include "sqlite3.h"
-
-#include "os_setup.h"
-#if SQLITE_OS_WIN
-#  include "os_win.h"
-#endif
-
 #include <string.h>
 #include <assert.h>
 
@@ -227,6 +221,7 @@ static sqlite3_uint64 vfslog_time(){
   return sTime.tv_usec + (sqlite3_uint64)sTime.tv_sec * 1000000;
 }
 #elif SQLITE_OS_WIN
+#include <windows.h>
 #include <time.h>
 static sqlite3_uint64 vfslog_time(){
   FILETIME ft;

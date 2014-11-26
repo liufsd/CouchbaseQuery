@@ -1183,7 +1183,8 @@ static int resolve_conflict(
       apx->type = SH_RESOLVED;
     }else{
       assert( spx->prec==spy->prec && spx->assoc==NONE );
-      apx->type = ERROR;
+      apy->type = SRCONFLICT;
+      errcnt++;
     }
   }else if( apx->type==REDUCE && apy->type==REDUCE ){
     spx = apx->x.rp->precsym;
